@@ -1,37 +1,105 @@
+:root {
+	--color-accent: #97317c;
+}
+
+* {
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
 body {
-  font-family: sans-serif;
-  font-size: 1.5rem;
+	font-size: 1.1rem;
 }
 
-img {
-  max-width: 50vw;
-  max-height: 25vw;
-  display: block;
-  margin: auto;
+.m-0 {
+	margin: 0;
+}
+.mb-0 {
+	margin-bottom: 0;
 }
 
-form {
-  display: flex;
-  justify-content: center;
-  gap: 0.5em;
-  flex-flow: row wrap;
-  max-width: 40vw;
-  margin: auto;
-  align-items: baseline;
+.text-center {
+	text-align: center;
 }
 
-button[type="submit"] {
-  padding: 5px 20px;
-  margin: 10px auto;
-  float: right;
+.container {
+	max-width: 720px;
+	margin: 1rem auto;
 }
 
-#greeting {
-  margin: 10px auto;
-  padding: 10px 60px;
-  border: 1px solid #222;
+.logo {
+	width: 100%;
+	display: block;
+	margin: auto;
 }
 
-#greeting:empty {
-  display: none;
+.heading {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+
+.todos {
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.5rem;
+}
+
+.todo {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+
+.todo-checkbox {
+	width: 1.1rem;
+	height: 1.1rem;
+	accent-color: var(--color-accent);
+}
+
+.todo-label {
+	font-size: 1.4rem;
+	// text-transform: capitalize;
+}
+
+.clear-button {
+	margin-top: 1rem;
+}
+
+.add-form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1rem;
+	padding: 1.5rem;
+	border: 3px solid var(--color-accent);
+	border-radius: 1rem;
+}
+
+.input-label {
+	margin-bottom: -0.6rem;
+}
+
+.text-input {
+	font-size: inherit;
+	padding: 0.5rem;
+	border: 2px solid black;
+	border-radius: 0.5rem;
+}
+
+.button {
+	font-size: inherit;
+	min-width: 6rem;
+	padding: 0.5rem 1rem;
+	color: white;
+	background-color: var(--color-accent);
+	border: none;
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+.button:disabled {
+	background-color: #bbb;
+	cursor: wait;
 }

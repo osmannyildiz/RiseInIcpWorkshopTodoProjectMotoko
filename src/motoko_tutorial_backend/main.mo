@@ -6,6 +6,7 @@ import Text "mo:base/Text";
 
 actor Assistant {
 	type Todo = {
+		id: Nat;
 		description : Text;
 		isCompleted : Bool;
 	};
@@ -15,7 +16,7 @@ actor Assistant {
 	};
 
 	var todos = HashMap.HashMap<Nat, Todo>(0, Nat.equal, getHashOfNat);
-	var nextId : Nat = 0;
+	var nextId : Nat = 1;
 
 	public query func getTodosAsArray() : async [Todo] {
 		return Iter.toArray(todos.vals());
@@ -23,7 +24,7 @@ actor Assistant {
 
 	public func addTodo(description : Text) : async Nat {
 		let id = nextId;
-		todos.put(id, { description = description; isCompleted = false });
+		todos.put(id, { id = id; description = description; isCompleted = false });
 		nextId += 1;
 		return id;
 	};
@@ -31,14 +32,14 @@ actor Assistant {
 	public func completeTodo(id : Nat) : async () {
 		ignore do ? {
 			let description = todos.get(id)!.description;
-			todos.put(id, { description; isCompleted = true });
+			todos.put(id, { id; description; isCompleted = true });
 		};
 	};
 
 	public query func showTodos() : async Text {
 		var output : Text = "\n==== TODOS ====";
 		for (todo : Todo in todos.vals()) {
-			output #= "\n- " # todo.description;
+			output #= "\n(" # Nat.toText(todo.id) # ") " # todo.description;
 			if (todo.isCompleted) {
 				output #= " (✔)";
 			};
