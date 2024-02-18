@@ -8,7 +8,8 @@ Developed during [Rise In](https://www.risein.com/)'s ICP Workshop in February 1
 
 ## 🧑‍🚀 Screenshots
 
-TODO
+![Screenshot 1](https://raw.githubusercontent.com/osmannyildiz/RiseInIcpWorkshopTodoProjectMotoko/main/_meta/assets/ss01.png)
+![Screenshot 2](https://raw.githubusercontent.com/osmannyildiz/RiseInIcpWorkshopTodoProjectMotoko/main/_meta/assets/ss02.png)
 
 ## 🚀 How to launch?
 
