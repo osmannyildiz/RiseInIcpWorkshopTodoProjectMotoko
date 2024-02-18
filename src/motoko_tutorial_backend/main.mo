@@ -1,5 +1,58 @@
-actor {
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
-  };
+import Hash "mo:base/Hash";
+import HashMap "mo:base/HashMap";
+import Iter "mo:base/Iter";
+import Nat "mo:base/Nat";
+import Text "mo:base/Text";
+
+actor Assistant {
+	type Todo = {
+		description : Text;
+		isCompleted : Bool;
+	};
+
+	func getHashOfNat(n : Nat) : Hash.Hash {
+		return Text.hash(Nat.toText(n));
+	};
+
+	var todos = HashMap.HashMap<Nat, Todo>(0, Nat.equal, getHashOfNat);
+	var nextId : Nat = 0;
+
+	public query func getTodosAsArray() : async [Todo] {
+		return Iter.toArray(todos.vals());
+	};
+
+	public func addTodo(description : Text) : async Nat {
+		let id = nextId;
+		todos.put(id, { description = description; isCompleted = false });
+		nextId += 1;
+		return id;
+	};
+
+	public func completeTodo(id : Nat) : async () {
+		ignore do ? {
+			let description = todos.get(id)!.description;
+			todos.put(id, { description; isCompleted = true });
+		};
+	};
+
+	public query func showTodos() : async Text {
+		var output : Text = "\n==== TODOS ====";
+		for (todo : Todo in todos.vals()) {
+			output #= "\n- " # todo.description;
+			if (todo.isCompleted) {
+				output #= " (✔)";
+			};
+		};
+		output #= "\n";
+		return output;
+	};
+
+	public func clearCompletedTodos() : async () {
+		todos := HashMap.mapFilter<Nat, Todo, Todo>(
+			todos,
+			Nat.equal,
+			getHashOfNat,
+			func(_, todo) { if (todo.isCompleted) null else ?todo },
+		);
+	};
 };
