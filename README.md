@@ -4,7 +4,7 @@ This is a simple todo app developed on the [Internet Computer platform](https://
 
 Based on this official example project: [Simple to-do](https://github.com/dfinity/examples/tree/master/motoko/simple-to-do).
 
-Developed during [Rise In](https://www.risein.com/)'s ICP Workshop in February 17, 2024.
+Developed during and after [Rise In](https://www.risein.com/)'s ICP Workshop in February 17, 2024.
 
 ## 🧑‍🚀 Screenshots
 
