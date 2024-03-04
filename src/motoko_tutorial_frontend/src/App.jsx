@@ -11,7 +11,8 @@ function App() {
 
 	const fetchTodos = async () => {
 		const fetchedTodos = await motoko_tutorial_backend.getTodosAsArray();
-		fetchedTodos.sort((a, b) => (a.id < b.id ? -1 : 1));
+		fetchedTodos.sort((a, b) => (a.id > b.id ? 1 : -1)); // Sort by id
+		fetchedTodos.sort((a, b) => (!a.isUrgent && b.isUrgent ? 1 : -1)); // Sort by urgency
 		setTodos(fetchedTodos);
 	};
 
@@ -41,7 +42,8 @@ function App() {
 
 		setIsProcessing(true);
 		const description = event.target.elements.description.value;
-		await motoko_tutorial_backend.addTodo(description);
+		const isUrgent = event.target.elements.isUrgent.checked;
+		await motoko_tutorial_backend.addTodo(description, isUrgent);
 		await fetchTodos();
 		setIsProcessing(false);
 	};
@@ -54,7 +56,7 @@ function App() {
 					<div className="todo">
 						<input
 							key={todo.id}
-							className="todo-checkbox"
+							className="checkbox"
 							type="checkbox"
 							id={`todo-${todo.id}`}
 							checked={todo.isCompleted}
@@ -66,7 +68,8 @@ function App() {
 							}
 						/>
 						<label className="todo-label" htmlFor={`todo-${todo.id}`}>
-							{todo.description}
+							{todo.isUrgent && <span className="todo-urgent-icon">⚠️</span>}
+							<span>{todo.description}</span>
 						</label>
 					</div>
 				))}
@@ -99,6 +102,7 @@ function App() {
 
 			<form className="add-form" onSubmit={handleAddFormSubmit}>
 				<h2 className="m-0">Add Todo</h2>
+
 				<label className="input-label" htmlFor="description">
 					Description
 				</label>
@@ -108,6 +112,19 @@ function App() {
 					name="description"
 					type="text"
 				/>
+
+				<div>
+					<input
+						className="checkbox"
+						id="isUrgent"
+						name="isUrgent"
+						type="checkbox"
+					/>
+					<label className="checkbox-label" htmlFor="isUrgent">
+						⚠️ Urgent
+					</label>
+				</div>
+
 				<button className="button" type="submit" disabled={isProcessing}>
 					Add
 				</button>

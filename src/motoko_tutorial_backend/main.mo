@@ -6,8 +6,9 @@ import Text "mo:base/Text";
 
 actor Assistant {
 	type Todo = {
-		id: Nat;
+		id : Nat;
 		description : Text;
+		isUrgent : Bool;
 		isCompleted : Bool;
 	};
 
@@ -22,24 +23,24 @@ actor Assistant {
 		return Iter.toArray(todos.vals());
 	};
 
-	public func addTodo(description : Text) : async Nat {
+	public func addTodo(description : Text, isUrgent : Bool) : async Nat {
 		let id = nextId;
-		todos.put(id, { id = id; description = description; isCompleted = false });
+		todos.put(id, { id; description; isUrgent; isCompleted = false });
 		nextId += 1;
 		return id;
 	};
 
 	public func completeTodo(id : Nat) : async () {
 		ignore do ? {
-			let description = todos.get(id)!.description;
-			todos.put(id, { id; description; isCompleted = true });
+			let todoToEdit = todos.get(id)!;
+			todos.put(id, { id; description = todoToEdit.description; isUrgent = todoToEdit.isUrgent; isCompleted = true });
 		};
 	};
 
 	public func undoCompleteTodo(id : Nat) : async () {
 		ignore do ? {
-			let description = todos.get(id)!.description;
-			todos.put(id, { id; description; isCompleted = false });
+			let todoToEdit = todos.get(id)!;
+			todos.put(id, { id; description = todoToEdit.description; isUrgent = todoToEdit.isUrgent; isCompleted = false });
 		};
 	};
 
@@ -47,6 +48,9 @@ actor Assistant {
 		var output : Text = "\n==== TODOS ====";
 		for (todo : Todo in todos.vals()) {
 			output #= "\n(" # Nat.toText(todo.id) # ") " # todo.description;
+			if (todo.isUrgent) {
+				output #= " (!)";
+			};
 			if (todo.isCompleted) {
 				output #= " (✔)";
 			};
