@@ -10,6 +10,7 @@ Developed during and after [Rise In](https://www.risein.com/)'s ICP Workshop in 
 
 ![Screenshot 1](https://raw.githubusercontent.com/osmannyildiz/RiseInIcpWorkshopTodoProjectMotoko/main/_meta/assets/ss01.png)
 ![Screenshot 2](https://raw.githubusercontent.com/osmannyildiz/RiseInIcpWorkshopTodoProjectMotoko/main/_meta/assets/ss02.png)
+![Screenshot 3](https://raw.githubusercontent.com/osmannyildiz/RiseInIcpWorkshopTodoProjectMotoko/main/_meta/assets/ss03.png)
 
 ## 🚀 How to launch?
 
