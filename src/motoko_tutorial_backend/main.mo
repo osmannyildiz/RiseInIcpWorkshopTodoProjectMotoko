@@ -51,16 +51,16 @@ actor Assistant {
 		for (todo : Todo in todos.vals()) {
 			output #= "\n(" # Nat.toText(todo.id) # ") " # todo.description;
 			if (todo.isUrgent) {
-				output #= " (!)";
+				output #= " (⚠️)";
 			};
 			switch (todo.dateTime) {
 				case (?dateTime) {
-					output #= " (" # dateTime # ")";
+					output #= " (⏰ " # dateTime # ")";
 				};
 				case null {};
 			};
 			if (todo.isCompleted) {
-				output #= " (✔)";
+				output #= " (✅)";
 			};
 		};
 		output #= "\n";
