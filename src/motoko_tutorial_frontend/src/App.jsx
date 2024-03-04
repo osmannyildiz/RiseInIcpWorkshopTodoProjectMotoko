@@ -22,6 +22,13 @@ function App() {
 		setIsProcessing(false);
 	};
 
+	const handleUndoCompleteTodo = async (id) => {
+		setIsProcessing(true);
+		await motoko_tutorial_backend.undoCompleteTodo(id);
+		await fetchTodos();
+		setIsProcessing(false);
+	};
+
 	const handleClearCompletedTodos = async () => {
 		setIsProcessing(true);
 		await motoko_tutorial_backend.clearCompletedTodos();
@@ -52,7 +59,11 @@ function App() {
 							id={`todo-${todo.id}`}
 							checked={todo.isCompleted}
 							disabled={isProcessing}
-							onChange={() => !todo.isCompleted && handleCompleteTodo(todo.id)}
+							onChange={() =>
+								todo.isCompleted
+									? handleUndoCompleteTodo(todo.id)
+									: handleCompleteTodo(todo.id)
+							}
 						/>
 						<label className="todo-label" htmlFor={`todo-${todo.id}`}>
 							{todo.description}

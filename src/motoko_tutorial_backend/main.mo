@@ -36,6 +36,13 @@ actor Assistant {
 		};
 	};
 
+	public func undoCompleteTodo(id : Nat) : async () {
+		ignore do ? {
+			let description = todos.get(id)!.description;
+			todos.put(id, { id; description; isCompleted = false });
+		};
+	};
+
 	public query func showTodos() : async Text {
 		var output : Text = "\n==== TODOS ====";
 		for (todo : Todo in todos.vals()) {
