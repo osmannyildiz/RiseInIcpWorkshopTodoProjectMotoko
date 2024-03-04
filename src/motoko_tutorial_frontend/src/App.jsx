@@ -1,9 +1,21 @@
 import { motoko_tutorial_backend } from "declarations/motoko_tutorial_backend";
 import { useEffect, useState } from "react";
 
+const formatDateObjForDisplay = (dateObj) => {
+	return dateObj.toLocaleString(undefined, {
+		month: "long",
+		day: "numeric",
+		weekday: "long",
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false,
+	});
+};
+
 function App() {
 	const [todos, setTodos] = useState(null);
 	const [isProcessing, setIsProcessing] = useState(false);
+	const [addDateTime, setAddDateTime] = useState(false);
 
 	useEffect(() => {
 		fetchTodos();
@@ -43,7 +55,9 @@ function App() {
 		setIsProcessing(true);
 		const description = event.target.elements.description.value;
 		const isUrgent = event.target.elements.isUrgent.checked;
-		await motoko_tutorial_backend.addTodo(description, isUrgent);
+		let dateTime = addDateTime ? event.target.elements.dateTime.value : null;
+		dateTime = dateTime ? [new Date(dateTime).toISOString()] : [];
+		await motoko_tutorial_backend.addTodo(description, isUrgent, dateTime);
 		await fetchTodos();
 		setIsProcessing(false);
 	};
@@ -69,7 +83,17 @@ function App() {
 						/>
 						<label className="todo-label" htmlFor={`todo-${todo.id}`}>
 							{todo.isUrgent && <span className="todo-urgent-icon">⚠️</span>}
-							<span>{todo.description}</span>
+
+							<span className="todo-description">{todo.description}</span>
+
+							{todo.dateTime?.[0] && (
+								<span className="todo-date-time">
+									<span className="todo-date-time-icon">⏰</span>
+									<span>
+										{formatDateObjForDisplay(new Date(todo.dateTime[0]))}
+									</span>
+								</span>
+							)}
 						</label>
 					</div>
 				))}
@@ -124,6 +148,35 @@ function App() {
 						⚠️ Urgent
 					</label>
 				</div>
+
+				<div>
+					<input
+						className="checkbox"
+						id="addDateTime"
+						name="addDateTime"
+						type="checkbox"
+						checked={addDateTime}
+						onChange={(event) => setAddDateTime(event.target.checked)}
+					/>
+					<label className="checkbox-label" htmlFor="addDateTime">
+						⏰ Add Date/Time
+					</label>
+				</div>
+
+				{addDateTime && (
+					<>
+						<label className="input-label" htmlFor="dateTime">
+							Date/Time
+						</label>
+						<input
+							className="text-input"
+							id="dateTime"
+							name="dateTime"
+							type="datetime-local"
+							required
+						/>
+					</>
+				)}
 
 				<button className="button" type="submit" disabled={isProcessing}>
 					Add
